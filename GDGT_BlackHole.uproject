@@ -1,0 +1,13 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "{1BBD5E56-4254-4C9E-4639-0BA855E5698B}",
+	"Category": "",
+	"Description": "",
+	"Modules": [
+		{
+			"Name": "GDGT_BlackHole",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}

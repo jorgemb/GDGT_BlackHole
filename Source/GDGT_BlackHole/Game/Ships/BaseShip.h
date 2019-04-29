@@ -21,7 +21,7 @@ public:
 
 	/** Sets initial data for the ship */
 	UFUNCTION(BlueprintCallable)
-	virtual void InitializeShip(AActor* ShipOwner, class APlanet* SourcePlanet, class APlanet* TargetPlanet);
+	virtual void InitializeShip(AActor* OwnerActor, class APlanet* SourcePlanet, class APlanet* TargetPlanet);
 
 	/** Owner of the ship */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status")

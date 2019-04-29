@@ -2,6 +2,8 @@
 
 #include "BaseShip.h"
 #include <Components/StaticMeshComponent.h>
+#include <Engine/StaticMesh.h>
+#include <GameFramework/PlayerController.h>
 #include <ConstructorHelpers.h>
 #include <Kismet/KismetSystemLibrary.h>
 #include <Materials/MaterialInstanceDynamic.h>
@@ -35,11 +37,11 @@ ABaseShip::ABaseShip()
 	ColorEnemy = FColor::FColor(255, 0, 0, 200);
 }
 
-void ABaseShip::InitializeShip(AActor* ShipOwner, APlanet * SourcePlanet, APlanet * TargetPlanet)
+void ABaseShip::InitializeShip(AActor* OwnerActor, APlanet * Source, APlanet * Target)
 {
-	this->SourcePlanet = SourcePlanet;
-	this->TargetPlanet = TargetPlanet;
-	this->ShipOwner = ShipOwner;
+	SourcePlanet = Source;
+	TargetPlanet = Target;
+	ShipOwner = OwnerActor;
 }
 
 // Called when the game starts or when spawned

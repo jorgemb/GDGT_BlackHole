@@ -3,6 +3,7 @@
 #include "StellarObject.h"
 #include <Components/SceneComponent.h>
 #include <Components/StaticMeshComponent.h>
+#include <Engine/StaticMesh.h>
 #include <ConstructorHelpers.h>
 #include <Math/Matrix.h>
 #include <DrawDebugHelpers.h>

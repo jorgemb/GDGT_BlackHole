@@ -4,6 +4,7 @@
 #include <Components/SceneComponent.h>
 #include <Components/InputComponent.h>
 #include <Components/StaticMeshComponent.h>
+#include <Engine/StaticMesh.h>
 #include <GameFramework/SpringArmComponent.h>
 #include <GameFramework/FloatingPawnMovement.h>
 #include <Camera/CameraComponent.h>

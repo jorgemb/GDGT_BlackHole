@@ -15,6 +15,7 @@ void ATopdownController::BeginPlay()
 	Super::BeginPlay();
 
 	bShowMouseCursor = true;
+	SetIgnoreMoveInput(true);
 
 	// Get all planets in World
 	for (TActorIterator<APlanet> PlanetIter(GetWorld()); PlanetIter; ++PlanetIter)

@@ -2,8 +2,10 @@
 
 #include "Planet.h"
 #include <Components/StaticMeshComponent.h>
-#include <GameFramework/SpringArmComponent.h>
 #include <Components/TextRenderComponent.h>
+#include <Engine/StaticMesh.h>
+#include <GameFramework/SpringArmComponent.h>
+#include <GameFramework/PlayerController.h>
 #include <Materials/MaterialInterface.h>
 #include <Materials/MaterialInstanceDynamic.h>
 #include <ConstructorHelpers.h>

@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include <CollisionQueryParams.h>
+#include <Engine/World.h>
 #include "CollisionTrace.generated.h"
 
 /**

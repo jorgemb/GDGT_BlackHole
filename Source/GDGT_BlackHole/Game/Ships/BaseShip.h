@@ -71,8 +71,8 @@ protected:
 		UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	// Material to use for the Ship
-	class UMaterialInterface* ShipMaterial;
-	class UMaterialInstanceDynamic* MIShipMaterial;
+	class UMaterialInterface *ShipMaterial, *ShipMaterial_Own, *ShipMaterial_Enemy;
+	//class UMaterialInstanceDynamic* MIShipMaterial;
 
 public:	
 	// Called every frame

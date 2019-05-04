@@ -10,6 +10,8 @@
 #include <Materials/MaterialInstanceDynamic.h>
 #include <ConstructorHelpers.h>
 #include "Game/Ships/BaseShip.h"
+#include "UI/ActorWidgetComponent.h"
+#include "UI/ActorWidget.h"
 
 APlanet::APlanet()
 {
@@ -45,29 +47,15 @@ APlanet::APlanet()
 	SelectionMesh->SetRelativeScale3D(FVector(2.0f, 2.0f, 2.0f));
 	SelectionMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
-	// Create spring arm
-	NumberHolder = CreateDefaultSubobject<USpringArmComponent>(FName("NumberHolder"));
-	NumberHolder->TargetArmLength = 1000;
-	NumberHolder->bInheritYaw = false;
-	NumberHolder->bInheritPitch = false;
-	NumberHolder->bInheritRoll = false;
-	NumberHolder->SetupAttachment(Root);
-	NumberHolder->SetRelativeRotation(FRotator(-90.0f, 0.0f, 0.0f));
-
 	// Set planet scale
 	SetActorScale3D(FVector(4.0f, 4.0f, 4.0f));
 
-	// Add spring arm and units counter
-	UnitsText = CreateDefaultSubobject<UTextRenderComponent>(FName("UnitsText"));
-	UnitsText->SetTextRenderColor(FColor::Cyan);
-	UnitsText->SetRelativeRotation(FRotator(-20.0f, 180.0f, 0.0f));
-	UnitsText->SetXScale(4.0f);
-	UnitsText->SetYScale(4.0f);
-	UnitsText->SetHorizontalAlignment(EHorizTextAligment::EHTA_Center);
-	UnitsText->HorizSpacingAdjust = -2.5f;
-	const ConstructorHelpers::FObjectFinder<UMaterialInterface> TextComponent_Material(TEXT("Material'/Game/Materials/Font/TextMaterialWithTransparency.TextMaterialWithTransparency'"));
-	UnitsText->SetTextMaterial(TextComponent_Material.Object);
-	UnitsText->SetupAttachment(NumberHolder);
+	// Add units widget
+	UnitsWidget = CreateDefaultSubobject<UActorWidgetComponent>(FName("UnitsWidget"));
+	const ConstructorHelpers::FClassFinder<UActorWidget> Widget_UnitsWidget(TEXT("/Game/UI/PlanetShips"));
+	UnitsWidget->SetWidgetClass(Widget_UnitsWidget.Class);
+	UnitsWidget->SetWidgetSpace(EWidgetSpace::Screen);
+	UnitsWidget->SetupAttachment(Root);
 
 	// Set ship type
 	PlanetShipType = ABaseShip::StaticClass();
@@ -103,8 +91,6 @@ void APlanet::Tick(float DeltaTime)
 			TimeSinceLastGrow = GetWorld()->GetTimeSeconds();
 		}
 	}
-
-	UnitsText->SetText(FText::AsNumber(CurrentUnits));
 }
 
 void APlanet::ChangeSelectionColor(FLinearColor newColor)

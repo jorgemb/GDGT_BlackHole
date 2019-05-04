@@ -22,13 +22,9 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="Planet|Selection")
 	class UStaticMeshComponent* SelectionMesh;
 
-	/** Spring arm for handling the number count */
+	/** Widget to show number of units */
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="Planet|Status")
-	class USpringArmComponent* NumberHolder;
-
-	/** Text for number of units */ 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="Planet|Status")
-	class UTextRenderComponent* UnitsText;
+	class UActorWidgetComponent* UnitsWidget;
 
 	/** Returns if the planet is selected */
 	UFUNCTION(BlueprintGetter)

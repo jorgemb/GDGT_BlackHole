@@ -29,7 +29,11 @@ ABaseShip::ABaseShip()
 
 	// Find material
 	ConstructorHelpers::FObjectFinder<UMaterialInterface> Ship_Material(TEXT("Material'/Game/Materials/Ships/SimpleShipMaterial.SimpleShipMaterial'"));
+	ConstructorHelpers::FObjectFinder<UMaterialInterface> Ship_MaterialOwn(TEXT("Material'/Game/Materials/Ships/SimpleShip_Own.SimpleShip_Own'"));
+	ConstructorHelpers::FObjectFinder<UMaterialInterface> Ship_MaterialEnemy(TEXT("Material'/Game/Materials/Ships/SimpleShip_Enemy.SimpleShip_Enemy'"));
 	ShipMaterial = Ship_Material.Object;
+	ShipMaterial_Own = Ship_MaterialOwn.Object;
+	ShipMaterial_Enemy = Ship_MaterialEnemy.Object;
 	ShipMesh->SetMaterial(0, ShipMaterial);
 
 	// Set colors
@@ -55,13 +59,20 @@ void ABaseShip::BeginPlay()
 	// Create material for the ship
 	AActor* PlayerControllerAsActor = Cast<AActor>(GetWorld()->GetFirstPlayerController());
 
-	MIShipMaterial = UMaterialInstanceDynamic::Create(ShipMaterial, this);
-	if(ShipOwner == PlayerControllerAsActor)
-		MIShipMaterial->SetVectorParameterValue(FName("ShipColor"), ColorOwn);
-	else
-		MIShipMaterial->SetVectorParameterValue(FName("ShipColor"), ColorEnemy);
+	// Use dynamic material
+	//MIShipMaterial = UMaterialInstanceDynamic::Create(ShipMaterial, this);
+	//if(ShipOwner == PlayerControllerAsActor)
+	//	MIShipMaterial->SetVectorParameterValue(FName("ShipColor"), ColorOwn);
+	//else
+	//	MIShipMaterial->SetVectorParameterValue(FName("ShipColor"), ColorEnemy);
 
-	ShipMesh->SetMaterial(0, MIShipMaterial);
+	//ShipMesh->SetMaterial(0, MIShipMaterial);
+
+	// Use static materia
+	if (ShipOwner == PlayerControllerAsActor)
+		ShipMesh->SetMaterial(0, ShipMaterial_Own);
+	else
+		ShipMesh->SetMaterial(0, ShipMaterial_Enemy);
 }
 
 void ABaseShip::OnShipBeginOverlap(UPrimitiveComponent * OverlappedComponent, AActor * OtherActor, UPrimitiveComponent * OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)

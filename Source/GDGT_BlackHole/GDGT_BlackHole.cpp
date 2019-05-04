@@ -4,3 +4,5 @@
 #include "Modules/ModuleManager.h"
 
 IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, GDGT_BlackHole, "GDGT_BlackHole" );
+
+DEFINE_LOG_CATEGORY(LogGame);

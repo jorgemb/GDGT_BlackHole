@@ -5,10 +5,24 @@
 #include <Kismet/GameplayStatics.h>
 #include <Kismet/KismetSystemLibrary.h>
 #include <EngineUtils.h>
+#include <ConstructorHelpers.h>
 #include <Engine/World.h>
+#include <Components/AudioComponent.h>
+#include <Sound/SoundCue.h>
 #include "Universe/Planet.h"
 #include "Library/CollisionTrace.h"
 #include "TopdownPlayer.h"
+
+ATopdownController::ATopdownController() 
+{
+	// Create audio components
+	SendShipsAudioComponent = CreateDefaultSubobject<UAudioComponent>(FName("SendShipsAudioComponent"));
+	SendShipsAudioComponent->bAutoActivate = false;
+	SendShipsAudioComponent->SetupAttachment(RootComponent);
+
+	const ConstructorHelpers::FObjectFinder<USoundCue> SoundCue_SendShipsCue(TEXT("SoundCue'/Game/Audio/Effects/Spaceships/SendshipsCue.SendShipsCue'"));
+	SendShipsSoundCue = SoundCue_SendShipsCue.Object;
+}
 
 void ATopdownController::BeginPlay() 
 {
@@ -69,6 +83,16 @@ void ATopdownController::Tick(float DeltaTime)
 				if (ObjIter->IsBeingHovered()) ObjIter->ReceiveHoverEnd();
 			}
 		}
+	}
+}
+
+void ATopdownController::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+
+	if (SendShipsSoundCue->IsValidLowLevel())
+	{
+		SendShipsAudioComponent->SetSound(SendShipsSoundCue);
 	}
 }
 
@@ -181,6 +205,12 @@ void ATopdownController::SelectionAdd()
 	}
 }
 
+void ATopdownController::ExitLevel()
+{
+	FName MainMenuLevel(TEXT("/Game/Maps/MainMenu"));
+	UGameplayStatics::OpenLevel(GetWorld(), MainMenuLevel);
+}
+
 void ATopdownController::SendUnits()
 {
 	// Find if there is a planet under the mouse, and use only the first planet
@@ -194,6 +224,9 @@ void ATopdownController::SendUnits()
 			}
 		}
 	}
+
+	// Play sound for send ships
+	SendShipsAudioComponent->Play();
 }
 
 // Called to bind functionality to input
@@ -207,8 +240,10 @@ void ATopdownController::SetupInputComponent()
 	InputComponent->BindAction(FName("SelectionAdd"), EInputEvent::IE_Pressed, this, &ATopdownController::SelectionAdd);
 	InputComponent->BindAction(FName("Selection"), EInputEvent::IE_Pressed, this, &ATopdownController::SelectionStart);
 	InputComponent->BindAction(FName("SendUnits"), EInputEvent::IE_Pressed, this, &ATopdownController::SendUnits);
+	InputComponent->BindAction(FName("Exit"), EInputEvent::IE_Pressed, this, &ATopdownController::ExitLevel);
 
 	InputComponent->BindAxis(FName("MoveForward"), this, &ATopdownController::MoveForward);
 	InputComponent->BindAxis(FName("MoveRight"), this, &ATopdownController::MoveRight);
+
 }
 

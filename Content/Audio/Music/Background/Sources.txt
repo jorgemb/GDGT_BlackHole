@@ -1,0 +1,11 @@
+battleThemeA.mp3
+	https://opengameart.org/content/battle-theme-a
+	CC0 1.0 Universal (CC0 1.0)
+	
+osn2u.mp3
+	https://opengameart.org/content/the-battle
+	Attribution 3.0 Unported (CC BY 3.0)
+	
+Heroic Demise (New).mp3
+	https://opengameart.org/content/heroic-demise-updated-version
+	Attribution 3.0 Unported (CC BY 3.0)

@@ -26,6 +26,14 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="Planet|Status")
 	class UActorWidgetComponent* UnitsWidget;
 
+	/** Sound component for selection */
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="Planet|Selection")
+	class UAudioComponent* SelectionAudioComponent;
+
+	/** Sound cue to use */
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="Planet|Selection")
+	class USoundCue* SelectionSoundCue;
+
 	/** Returns if the planet is selected */
 	UFUNCTION(BlueprintGetter)
 	bool GetIsSelected() const
@@ -104,6 +112,8 @@ public:
 protected:
 	/** Begin play event */
 	virtual void BeginPlay() override;
+
+	virtual void PostInitializeComponents() override;
 
 	/** Tick event */
 	virtual void Tick(float DeltaTime) override;

@@ -16,15 +16,15 @@ class GDGT_BLACKHOLE_API ABasicAIController : public AAIController
 	
 public:
 	/** Planet list */
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Universe")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="Universe")
 	TArray<class APlanet*> PlanetsInWorld;
 
 	/** Owned planets list */
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Universe")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="Universe")
 	TArray<class APlanet*> OwnedPlanets;
 
 	/** Not owned planets list */
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Universe")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="Universe")
 	TArray<class APlanet*> NotOwnedPlanets;
 
 	/** Get closest planet in the not owned list */

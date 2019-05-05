@@ -15,12 +15,17 @@ class GDGT_BLACKHOLE_API ATopdownController : public APlayerController
 	GENERATED_BODY()
 
 public:
+	ATopdownController();
+
 	// Events
 	/** Begin play event */
 	virtual void BeginPlay() override;
 
 	/** Tick event */
 	virtual void Tick(float DeltaTime) override;
+
+	/** Post initialize components */
+	virtual void PostInitializeComponents() override;
 
 	// Zoom options
 	/** Current zoom for the camera */
@@ -59,6 +64,15 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Movement")
 	void SetPawnBounds(const FVector& TopLeftCorner, const FVector& BottomRightCorner);
 
+	// Audio options
+	/** Audio component for playing sound */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Audio")
+	class UAudioComponent* SendShipsAudioComponent;
+
+	/** Sound cue for sending ships */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Audio")
+	class USoundCue* SendShipsSoundCue;
+
 protected:
 	// Returns all the planets under the mouse
 	TArray<class APlanet*> GetPlanetsUnderMouse(float TraceDistance = 200000);
@@ -84,6 +98,9 @@ protected:
 	// Called for selection
 	void SelectionStart();
 	void SelectionAdd();
+
+	// Called when player wants to exit
+	void ExitLevel();
 
 	// Called when player wants to send units to other planet
 	void SendUnits();

@@ -3,11 +3,13 @@
 #include "Planet.h"
 #include <Components/StaticMeshComponent.h>
 #include <Components/TextRenderComponent.h>
+#include <Components/AudioComponent.h>
 #include <Engine/StaticMesh.h>
 #include <GameFramework/SpringArmComponent.h>
 #include <GameFramework/PlayerController.h>
 #include <Materials/MaterialInterface.h>
 #include <Materials/MaterialInstanceDynamic.h>
+#include <Sound/SoundCue.h>
 #include <ConstructorHelpers.h>
 #include "Game/Ships/BaseShip.h"
 #include "UI/ActorWidgetComponent.h"
@@ -59,6 +61,14 @@ APlanet::APlanet()
 
 	// Set ship type
 	PlanetShipType = ABaseShip::StaticClass();
+
+	// Add audio component
+	SelectionAudioComponent = CreateDefaultSubobject<UAudioComponent>(FName("SelectionAudioComponent"));
+	SelectionAudioComponent->bAutoActivate = false;
+	SelectionAudioComponent->SetupAttachment(Root);
+
+	const ConstructorHelpers::FObjectFinder<USoundCue> SoundCue_SelectionCue(TEXT("SoundCue'/Game/Audio/Effects/Selection/SelectionCue.SelectionCue'"));
+	SelectionSoundCue = SoundCue_SelectionCue.Object;
 }
 
 void APlanet::BeginPlay()
@@ -71,6 +81,16 @@ void APlanet::BeginPlay()
 
 	// Set last grow to now
 	TimeSinceLastGrow = GetWorld()->GetTimeSeconds();
+}
+
+void APlanet::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+
+	if (SelectionSoundCue->IsValidLowLevel())
+	{
+		SelectionAudioComponent->SetSound(SelectionSoundCue);
+	}
 }
 
 void APlanet::Tick(float DeltaTime)
@@ -144,10 +164,11 @@ void APlanet::SendUnitsToTarget(APlanet * TargetPlanet)
 void APlanet::ReceiveSelect()
 {
 	AActor* PlayerControllerAsActor = Cast<AActor>(GetWorld()->GetFirstPlayerController());
-	if (PlayerControllerAsActor == PlanetOwner)
+	if (PlayerControllerAsActor == PlanetOwner && !IsSelected)
 	{
 		IsSelected = true;
 		ChangeSelectionColor(ColorSelected);
+		SelectionAudioComponent->Play();
 	}
 }
 
